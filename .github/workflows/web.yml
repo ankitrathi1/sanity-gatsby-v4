@@ -20,5 +20,21 @@ jobs:
         with:
           node-version: 16.x
           cache: 'yarn'
-      - run: yarn workspace sanity-gatsby-portfolio-web install
-      - run: yarn test
+      - name: cache-node
+        id: yarn-cache-dir
+        env:
+          cache-name: cache-node
+        uses: actions/cache@v2
+        with:
+          path: ${{ steps.yarn-cache-dir.outputs.dir }}
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-yarn
+            ${{ runner.os }}-
+      - name: Install dependencies
+        if: steps.yarn-cache-dir.outputs.cache-hit != 'true'
+        run: |
+          echo '::debug::deps cache miss - installing deps'
+          yarn workspace sanity-gatsby-portfolio-web install
+      - name: Build Website
+        run: yarn workspace sanity-gatsby-portfolio-web build
