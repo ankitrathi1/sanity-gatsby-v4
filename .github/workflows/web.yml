@@ -51,7 +51,7 @@ jobs:
         uses: actions/cache@v1
         id: gatsby-public-folder
         with:
-          path: public/
+          path: public
           key: ${{ runner.os }}-public-gatsby
           restore-keys: |
             ${{ runner.os }}-public-gatsby
