@@ -32,9 +32,6 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-yarn-
       - name: Install dependencies
-        if: steps.yarn-cache.outputs.cache-hit != 'true'
-        run: |
-          echo '::debug::deps cache miss - installing deps'
-          yarn workspace sanity-gatsby-portfolio-web install
+        run: yarn workspace sanity-gatsby-portfolio-web install --prefer-offline
       - name: Build Website
         run: yarn workspace sanity-gatsby-portfolio-web build
