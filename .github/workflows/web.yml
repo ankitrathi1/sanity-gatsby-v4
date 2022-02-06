@@ -27,14 +27,14 @@ jobs:
       - uses: actions/cache@v2
         id: yarn-cache
         with:
-          path: |
-            **/node_modules
-            **/.eslintcache
-            ${{ steps.yarn-cache-dir-path.outputs.dir }}
+          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
           key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
           restore-keys: |
             ${{ runner.os }}-yarn-
       - name: Install dependencies
-        run: yarn workspace sanity-gatsby-portfolio-web install --frozen-lockfile
+        if: steps.yarn-cache.outputs.cache-hit != 'true'
+        run: |
+          echo '::debug::deps cache miss - installing deps'
+          yarn workspace sanity-gatsby-portfolio-web install
       - name: Build Website
         run: yarn workspace sanity-gatsby-portfolio-web build
