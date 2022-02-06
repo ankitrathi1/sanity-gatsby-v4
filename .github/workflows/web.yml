@@ -12,9 +12,6 @@ on:
 jobs:
   web-build-deploy:
     runs-on: ubuntu-latest
-    env:
-      GATSBY_WEB_URL1: sample1
-      app_local_sample2: 'Portal'
     steps:
       - name: Checkout code
         uses: actions/checkout@v1
@@ -22,10 +19,10 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: 16.x
-      - name: cache-node-modules
+      - name: cache-node
         id: yarn-cache-dir
         env:
-          cache-name: cache-node-modules
+          cache-name: cache-node
         uses: actions/cache@v2
         with:
           path: ~/.yarn
