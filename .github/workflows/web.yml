@@ -40,4 +40,4 @@ jobs:
           echo '::debug::deps cache miss - installing deps'
           yarn workspace sanity-gatsby-portfolio-web install
       - name: Build Website
-        run: yarn workspace campaign-builder-web build
+        run: yarn workspace sanity-gatsby-portfolio-web build
