@@ -1,0 +1,41 @@
+# This is a basic workflow to help you get started with Actions
+
+name: Web | Build and Deploy - cache
+on:
+  # ONLY triggers on master branch
+  repository_dispatch:
+    types: [web-build-deploy]
+  push:
+    branches: main
+    paths:
+      - web/**
+jobs:
+  web-build-deploy:
+    runs-on: ubuntu-latest
+    env:
+      GATSBY_WEB_URL1: sample1
+      app_local_sample2: 'Portal'
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v1
+      - name: Use Node.js 12.x
+        uses: actions/setup-node@v1
+        with:
+          node-version: 12.x
+      - name: cache-node-modules
+        id: yarn-cache-dir
+        env:
+          cache-name: cache-node-modules
+        uses: actions/cache@v2
+        with:
+          path: ~/.yarn
+          key: ${{ runner.os }}-yarn-${{ env.cache-name }}-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-yarn-${{ env.cache-name }}-
+            ${{ runner.os }}-yarn
+            ${{ runner.os }}-
+      - name: Install dependencies
+        if: steps.yarn-cache-dir.outputs.cache-hit != 'true'
+        run: |
+          echo '::debug::deps cache miss - installing deps'
+          yarn workspace sanity-gatsby-portfolio-web install

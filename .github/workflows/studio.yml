@@ -1,0 +1,25 @@
+# This is a basic workflow to help you get started with Actions
+
+name: Studio | Build and Deploy
+on:
+  # ONLY triggers on master branch
+  repository_dispatch:
+    types: [studio-build-deploy]
+  push:
+    branches: main
+    paths:
+      - studio/**
+jobs:
+  studio-build-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v1
+      - name: Use Node.js 12.x
+        uses: actions/setup-node@v1
+        with:
+          node-version: 12.x
+      - name: Build Studio
+        run: |
+             yarn sanity-gatsby-portfolio-studio install
+             yarn workspace sanity-gatsby-portfolio-studio Build
