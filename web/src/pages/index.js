@@ -88,6 +88,7 @@ const IndexPage = props => {
       <SEO title={site.title} description={site.description} keywords={site.keywords} />
       <Container>
         <h1 hidden>Welcome to {site.title}</h1>
+        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3236310172836547"  crossorigin="anonymous"></script>
         {projectNodes && (
           <ProjectPreviewGrid
             title="Latest projects"
